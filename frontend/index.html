@@ -1,0 +1,1328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillChain - Exchange Skills, Earn Coins</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    
+    <div id="landingPage" class="fade-in">
+        <div class="floating-shapes">
+            <div class="shape shape1"></div>
+            <div class="shape shape2"></div>
+            <div class="shape shape3"></div>
+            <div class="shape shape4"></div>
+        </div>
+        <div class="container">
+            <div class="landing-content">
+                <div class="logo-badge logo-large">⚡ SKILLCHAIN</div>
+                <h1 class="landing-title gradient-text">Exchange Skills.<br>Earn Rewards.<br>Build Community.</h1>
+                <div class="typing-text" id="typingText"></div>
+                <p class="landing-description landing-subtitle-small">
+                    A next-generation campus platform where knowledge becomes currency.
+                    Connect, learn, and grow with peers in your community.
+                </p>
+                <div class="landing-buttons">
+                    <button class="btn btn-primary glow-effect" onclick="navigateTo('signup')">
+                        <span>Get Started</span>
+                        <span class="btn-arrow">→</span>
+                    </button>
+                    <button class="btn btn-secondary glass-effect" onclick="navigateTo('signin')">
+                        <span>Sign In</span>
+                    </button>
+                </div>
+                <div class="features-grid">
+                    <div class="feature-item">
+                        <div class="feature-icon">🎯</div>
+                        <div class="feature-text">Smart Matching</div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">💬</div>
+                        <div class="feature-text">Real-time Chat</div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">🪙</div>
+                        <div class="feature-text">Earn Rewards</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Location Modal -->
+    <div id="editLocationModal" class="modal-overlay modern-modal hidden">
+        <div class="modal glass-card">
+            <button class="close-btn modern-close" onclick="closeModal('editLocationModal')">×</button>
+            <div class="modal-header">
+                <h2 class="gradient-text">Update Location</h2>
+                <p class="subtitle">Update campus, city, or use device location to regenerate coordinates</p>
+            </div>
+
+            <div class="form-group modern-input">
+                <label for="profileUniversityInput">University</label>
+                <input id="profileUniversityInput" class="form-input glass-input" placeholder="University / Campus" />
+            </div>
+            <div class="form-row">
+                <div class="form-group modern-input" style="flex:1; margin-right:8px;">
+                    <label for="profileCampusInput">Campus</label>
+                    <input id="profileCampusInput" class="form-input glass-input" placeholder="Campus" />
+                </div>
+                <div class="form-group modern-input" style="flex:1;">
+                    <label for="profileResidenceInput">Dorm / Building</label>
+                    <input id="profileResidenceInput" class="form-input glass-input" placeholder="Dorm / Building" />
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group modern-input" style="flex:1; margin-right:8px;">
+                    <label for="profileCityInput">City</label>
+                    <input id="profileCityInput" class="form-input glass-input" placeholder="City" />
+                </div>
+                <div class="form-group modern-input" style="flex:1;">
+                    <label for="profileRegionInput">State / Region</label>
+                    <input id="profileRegionInput" class="form-input glass-input" placeholder="State / Region" />
+                </div>
+            </div>
+            <div class="form-group modern-input">
+                <label for="profileCountryInput">Country</label>
+                <input id="profileCountryInput" class="form-input glass-input" placeholder="Country" />
+            </div>
+
+            <div style="display:flex; gap:10px; margin-top:12px;">
+                <button class="btn btn-secondary" type="button" onclick="tryUseDeviceLocation()">Use Device Location</button>
+                <button class="btn btn-primary" type="button" onclick="submitProfileLocationUpdate()">Save Location</button>
+                <button class="btn" type="button" onclick="closeModal('editLocationModal')">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================
+         SIGNUP PAGE
+    ============================================ -->
+    <div id="signupPage" class="hidden">
+        <div class="container">
+            <div class="signup-card glass-card">
+                <button class="back-btn modern-back" onclick="navigateTo('landing')">
+                    <span class="back-arrow">←</span> Back
+                </button>
+                <h2 class="gradient-text">Join SkillChain</h2>
+                <p class="subtitle">Start your journey of skill exchange</p>
+
+                <div class="social-login">
+                    <button class="social-btn glass-effect" onclick="quickSignup()">
+                        <span class="social-icon">🔵</span> 
+                        <span>Continue with Google</span>
+                    </button>
+                </div>
+
+                <div class="divider">
+                    <span>OR</span>
+                </div>
+
+                <form id="signupForm" onsubmit="return handleSignupSubmit(event)">
+                    <div class="form-group modern-input">
+                        <label for="signupName">Full Name</label>
+                        <input type="text" id="signupName" class="form-input glass-input" placeholder="Enter your name" required>
+                    </div>
+                    <div class="form-group modern-input">
+                        <label for="signupEmail">Email Address</label>
+                        <input type="email" id="signupEmail" class="form-input glass-input" placeholder="your.email@example.com" required>
+                    </div>
+                    <div class="form-group modern-input">
+                        <label for="signupPassword">Password</label>
+                        <input type="password" id="signupPassword" class="form-input glass-input" placeholder="Create a strong password" required>
+                    </div>
+                    <div class="form-group modern-input">
+                        <label for="confirmPassword">Confirm Password</label>
+                        <input type="password" id="confirmPassword" class="form-input glass-input" placeholder="Re-enter your password" required>
+                    </div>
+                    <div class="form-group modern-input">
+                        <label for="signupRegion">State/Region</label>
+                        <input type="text" id="signupRegion" class="form-input glass-input" placeholder="State / Region">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group modern-input" style="flex:1; margin-right:10px;">
+                            <label for="signupCity">City</label>
+                            <input type="text" id="signupCity" class="form-input glass-input" placeholder="City">
+                        </div>
+                        <div class="form-group modern-input" style="flex:1;">
+                            <label for="signupCampus">Campus</label>
+                            <input type="text" id="signupCampus" class="form-input glass-input" placeholder="Campus/University">
+                        </div>
+                    </div>
+                    <div class="form-group modern-input">
+                        <label for="signupDorm">Dorm / Building (optional)</label>
+                        <input type="text" id="signupDorm" class="form-input glass-input" placeholder="Dorm, building or room">
+                    </div>
+                    <!-- Device location prompt removed from signup flow; we'll ask later if geocoding fails -->
+                    <button type="submit" class="btn btn-primary glow-effect" style="width: 100%; margin-top: 20px;">
+                        <span>Create Account</span>
+                        <span class="btn-arrow">→</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================
+         SIGN IN PAGE (SEPARATE FROM SIGNUP)
+    ============================================ -->
+    <div id="signinPage" class="hidden">
+        <div class="container">
+            <div class="signup-card glass-card">
+                <button class="back-btn modern-back" onclick="navigateTo('landing')">
+                    <span class="back-arrow">←</span> Back
+                </button>
+                <h2 class="gradient-text">Welcome Back!</h2>
+                <p class="subtitle">Sign in to continue your journey</p>
+
+                <div class="social-login">
+                    <button class="social-btn glass-effect" onclick="quickSignIn()">
+                        <span class="social-icon">🔵</span> 
+                        <span>Continue with Google</span>
+                    </button>
+                </div>
+
+                <div class="divider">
+                    <span>OR</span>
+                </div>
+
+                <form id="signinForm" onsubmit="return handleSignInSubmit(event)">
+                    <div class="form-group modern-input">
+                        <label for="signinEmail">Email Address</label>
+                        <input type="email" id="signinEmail" class="form-input glass-input" placeholder="your.email@example.com" required>
+                    </div>
+                    <div class="form-group modern-input">
+                        <label for="signinPassword">Password</label>
+                        <input type="password" id="signinPassword" class="form-input glass-input" placeholder="Enter your password" required>
+                    </div>
+                    <div class="form-group" style="text-align: right; margin-top: -10px;">
+                        <a href="#" onclick="showForgotPassword(); return false;" class="forgot-password-link">Forgot Password?</a>
+                    </div>
+                    <button type="submit" class="btn btn-primary glow-effect" style="width: 100%; margin-top: 20px;">
+                        <span>Sign In</span>
+                        <span class="btn-arrow">→</span>
+                    </button>
+                    <p class="subtitle" style="text-align: center; margin-top: 20px;">
+                        Don't have an account? <a href="#" onclick="navigateTo('signup'); return false;" style="color: var(--primary-blue); text-decoration: none;">Sign Up</a>
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================
+         SKILL SETUP PAGE
+    ============================================ -->
+    <div id="skillSetupPage" class="hidden">
+        <div class="skill-setup-container">
+            <button class="back-btn modern-back" onclick="navigateTo('signup')" style="margin-left: 20px;">
+                <span class="back-arrow">←</span> Back
+            </button>
+            
+            <div class="skill-setup-header fade-in">
+                <h2 class="gradient-text">Tell Us About You</h2>
+                <p class="subtitle">Help us connect you with the right people</p>
+            </div>
+
+            <!-- University and Location Section -->
+            <div class="location-section fade-in">
+                <h3>🏫 University & Location</h3>
+                <div class="location-grid">
+                    <div class="form-group modern-input">
+                        <label for="universitySelect">Your University</label>
+                        <select id="universitySelect" class="glass-input" onchange="handleUniversityChange()">
+                            <option value="">Select your university</option>
+                            <option value="stanford">Stanford University</option>
+                            <option value="mit">MIT</option>
+                            <option value="harvard">Harvard University</option>
+                            <option value="berkeley">UC Berkeley</option>
+                            <option value="caltech">Caltech</option>
+                            <option value="ucla">UCLA</option>
+                            <option value="columbia">Columbia University</option>
+                            <option value="princeton">Princeton University</option>
+                            <option value="yale">Yale University</option>
+                            <option value="custom">+ Add New University</option>
+                        </select>
+                        <input type="text" id="customUniversityInput" class="form-input glass-input" placeholder="Enter university name" style="display: none; margin-top: 10px;">
+                    </div>
+                    <div class="form-group modern-input">
+                        <label for="campusSelect">Campus/Location</label>
+                        <select id="campusSelect" class="glass-input" onchange="handleCampusChange()">
+                            <option value="">Select campus location</option>
+                            <option value="main">Main Campus</option>
+                            <option value="north">North Campus</option>
+                            <option value="south">South Campus</option>
+                            <option value="east">East Campus</option>
+                            <option value="west">West Campus</option>
+                            <option value="downtown">Downtown Campus</option>
+                            <option value="custom">+ Add New Campus</option>
+                        </select>
+                        <input type="text" id="customCampusInput" class="form-input glass-input" placeholder="Enter campus name" style="display: none; margin-top: 10px;">
+                    </div>
+                    <div class="form-group modern-input">
+                        <label for="citySelect">City</label>
+                        <select id="citySelect" class="glass-input" onchange="handleCityChange()">
+                            <option value="">Select your city</option>
+                            <option value="chennai">Chennai</option>
+                            <option value="bangalore">Bangalore</option>
+                            <option value="mumbai">Mumbai</option>
+                            <option value="delhi">Delhi</option>
+                            <option value="hyderabad">Hyderabad</option>
+                            <option value="pune">Pune</option>
+                            <option value="kolkata">Kolkata</option>
+                            <option value="custom">+ Add New City</option>
+                        </select>
+                        <input type="text" id="customCityInput" class="form-input glass-input" placeholder="Enter city name" style="display: none; margin-top: 10px;">
+                    </div>
+                    <div class="form-group modern-input">
+                        <label for="regionSelect">Region/State</label>
+                        <select id="regionSelect" class="glass-input" onchange="handleRegionChange()">
+
+                            <option value="">Select your region</option>
+                            <option value="tamil-nadu">Tamil Nadu</option>
+                            <option value="karnataka">Karnataka</option>
+                            <option value="maharashtra">Maharashtra</option>
+                            <option value="delhi-ncr">Delhi NCR</option>
+                            <option value="telangana">Telangana</option>
+                            <option value="west-bengal">West Bengal</option>
+                            <option value="california">California</option>
+                            <option value="massachusetts">Massachusetts</option>
+                            <option value="new-york">New York</option>
+                            <option value="texas">Texas</option>
+                            <option value="florida">Florida</option>
+                            <option value="other">Other</option> 
+                            
+                            
+
+                        </select>
+                        <input type="text" id="customRegionInput" class="form-input glass-input" placeholder="Enter region/state" style="display: none; margin-top: 10px;">
+                    </div>
+                    <div class="form-group modern-input">
+                        <label for="countrySelect">Country</label>
+                        <input type="text" id="countrySelect" class="form-input glass-input" placeholder="Country">
+                    </div>
+                    <div class="form-group modern-input">
+                        <label for="dormSelect">Residence/Dorm (Optional)</label>
+                        <input type="text" id="dormSelect" class="form-input glass-input" placeholder="e.g., Baker Hall">
+                    </div>
+                    <div class="form-group modern-input" style="display:flex; align-items:center; gap:10px;">
+                        <label style="display:flex; align-items:center; gap:6px; margin:0;">
+                            <input type="checkbox" id="autoLocationTick" onclick="tryUseDeviceLocationSecure(this)" />
+                            <span style="font-size:0.95rem;">Load device location (secured)</span>
+                        </label>
+                        <small id="locationStatus" class="subtitle">Not loaded</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Skills Section -->
+            <div class="skills-section fade-in">
+                <h3>✨ Your Skills</h3>
+                <p class="subtitle" style="margin-bottom: 30px;">Add the skills you can teach</p>
+                
+                <div id="addedSkillsList" class="added-skills-list"></div>
+                
+                <div class="add-skill-form glass-card">
+                    <div class="form-row">
+                        <div class="form-group modern-input" style="flex: 2;">
+                            <label for="skillCategorySelect">Skill Category</label>
+                            <select id="skillCategorySelect" class="glass-input">
+                                <option value="">Select a category</option>
+                                <option value="music">🎵 Music</option>
+                                <option value="coding">💻 Coding</option>
+                                <option value="languages">🗣️ Languages</option>
+                                <option value="fitness">💪 Fitness</option>
+                                <option value="art">🎨 Art</option>
+                                <option value="public-speaking">🎤 Public Speaking</option>
+                                <option value="education">📚 Education</option>
+                                <option value="sports">⚽ Sports</option>
+                                <option value="theatre">🎭 Theatre</option>
+                                <option value="cycling">🚴 Cycling</option>
+                                <option value="other">✨ Other</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group modern-input" style="flex: 2;">
+                            <label for="skillNameInput">Specific Skill</label>
+                            <input type="text" id="skillNameInput" class="form-input glass-input" placeholder="e.g., Guitar, Python">
+                        </div>
+                        
+                        <div class="form-group modern-input" style="flex: 1;">
+                            <label for="proficiencySelect">Proficiency</label>
+                            <select id="proficiencySelect" class="glass-input">
+                                <option value="beginner">Beginner</option>
+                                <option value="intermediate">Intermediate</option>
+                                <option value="advanced">Advanced</option>
+                                <option value="expert">Expert</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group modern-input">
+                        <label for="specializationInput">Specialization/Details (Optional)</label>
+                        <input type="text" id="specializationInput" class="form-input glass-input" placeholder="e.g., C, C++, Java for Coding">
+                    </div>
+                    
+                    <button id="addSkillBtn" type="button" class="btn btn-secondary glass-effect" onclick="addSkill()" style="width: 100%; margin-top: 10px;" disabled>
+                        <span>+ Add Skill</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Language Section removed per user request -->
+
+            <div class="finish-btn-container">
+                <button id="finishSetupBtn" class="btn btn-primary glow-effect" onclick="completeSetup()" disabled>
+                    <span>Finish Setup</span>
+                    <span class="btn-arrow">→</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Need Device Location to verify address -->
+    <div id="needLocationModal" class="modal-overlay modern-modal hidden">
+        <div class="modal glass-card">
+            <button class="close-btn modern-close" onclick="closeModal('needLocationModal')">×</button>
+            <div class="modal-header">
+                <h2 class="gradient-text">Location Required</h2>
+                <p class="subtitle">We couldn't verify your address automatically. Please allow device location so we can set your coordinates.</p>
+            </div>
+            <div class="modal-body">
+                <p id="needLocationMsg" class="subtitle" style="color:var(--danger);">Unable to geocode the address you provided.</p>
+                <div style="display:flex; gap:10px; margin-top:12px;">
+                    <button id="useDeviceBtn" class="btn btn-secondary" type="button" onclick="useDeviceLocationAndRetry()">Use Device Location</button>
+                    <button class="btn" type="button" onclick="closeModal('needLocationModal')">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================
+         DASHBOARD PAGE
+    ============================================ -->
+    <div id="dashboardPage" class="hidden">
+        <!-- Sidebar -->
+        <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+        <div class="sidebar modern-sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo gradient-text">⚡ SkillChain</div>
+            </div>
+            <div class="sidebar-menu">
+                <div class="sidebar-item active" onclick="navigateTo('dashboard')">
+                    <span class="sidebar-icon">🏠</span> 
+                    <span>Dashboard</span>
+                </div>
+                <div class="sidebar-item" onclick="navigateTo('matches')">
+                    <span class="sidebar-icon">🎯</span> 
+                    <span>Matches</span>
+                    <span class="sidebar-badge" id="sidebarMatchBadge">0</span>
+                </div>
+                <div class="sidebar-item" onclick="navigateTo('chats')">
+                    <span class="sidebar-icon">💬</span> 
+                    <span>Chats</span>
+                    <span class="sidebar-badge" id="sidebarChatBadge">0</span>
+                </div>
+                <div class="sidebar-item" onclick="navigateTo('profile')">
+                    <span class="sidebar-icon">👤</span> 
+                    <span>Profile</span>
+                </div>
+                <div class="sidebar-item" onclick="navigateTo('servicesProvided')">
+                    <span class="sidebar-icon">📤</span> 
+                    <span>Services Provided</span>
+                </div>
+                <div class="sidebar-item" onclick="navigateTo('servicesTaken')">
+                    <span class="sidebar-icon">📥</span> 
+                    <span>Services Taken</span>
+                </div>
+                <div class="sidebar-item" onclick="navigateTo('waitingRequests')">
+                    <span class="sidebar-icon">⏳</span> 
+                    <span>Waiting Requests</span>
+                </div>
+                <div class="sidebar-item" onclick="navigateTo('reviews')">
+                    <span class="sidebar-icon">⭐</span> 
+                    <span>Reviews</span>
+                </div>
+                <div class="sidebar-item" onclick="navigateTo('discussion')">
+                    <span class="sidebar-icon">💭</span> 
+                    <span>Discussion</span>
+                </div>
+                <div class="sidebar-divider"></div>
+                <div class="sidebar-item" onclick="navigateTo('contact')">
+                    <span class="sidebar-icon">📞</span> 
+                    <span>Contact Us</span>
+                </div>
+                <div class="sidebar-item" onclick="navigateTo('settings')">
+                    <span class="sidebar-icon">⚙️</span> 
+                    <span>Settings</span>
+                </div>
+                <div class="sidebar-item logout" onclick="navigateTo('landing')">
+                    <span class="sidebar-icon">🚪</span> 
+                    <span>Logout</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Header -->
+        <div class="dashboard-header modern-header">
+            <div class="container">
+                <div class="header-content">
+                    <button class="menu-btn modern-menu-btn" onclick="toggleSidebar()">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                    
+                    <div class="search-bar modern-search">
+                        <span class="search-icon">🔍</span>
+                        <input type="text" class="search-input" id="searchInput" placeholder="Search skills, people, or locations..." onkeyup="filterUsers()">
+                    </div>
+
+                    <div class="header-actions">
+                        <div class="coin-balance modern-coin">
+                            <span class="coin-icon">🪙</span>
+                            <span id="coinDisplay">20</span>
+                        </div>
+                        
+                        <button class="icon-btn modern-icon-btn" onclick="toggleMatches()">
+                            <span class="icon-emoji">🎯</span>
+                            <span class="notification-badge pulse" id="matchBadge">0</span>
+                        </button>
+
+                        <button class="icon-btn modern-icon-btn" onclick="toggleNotifications()">
+                            <span class="icon-emoji">🔔</span>
+                            <span class="notification-badge pulse" id="notifBadge">2</span>
+                        </button>
+
+                        <button class="icon-btn modern-icon-btn" onclick="navigateTo('chats')">
+                            <span class="icon-emoji">💬</span>
+                            <span class="notification-badge pulse" id="chatBadge">0</span>
+                        </button>
+
+                        <button class="icon-btn modern-icon-btn" onclick="navigateTo('calendar')" title="Calendar">
+                            <span class="icon-emoji">📅</span>
+                        </button>
+
+                        <div class="profile-icon modern-profile" onclick="navigateTo('profile')">
+                            <span>👤</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Matches Dropdown -->
+        <div class="dropdown-panel modern-dropdown" id="matchesDropdown">
+            <h3>🎯 Match Requests</h3>
+            <div id="matchesList"></div>
+        </div>
+
+        <!-- Notification Dropdown -->
+        <div class="dropdown-panel modern-dropdown" id="notificationDropdown">
+            <h3>🔔 Notifications</h3>
+            <div id="notificationList"></div>
+            <button class="btn btn-secondary glass-effect" onclick="navigateTo('notifications')" style="width: 100%; margin-top: 15px; font-size: 0.9rem;">
+                View All Notifications
+            </button>
+        </div>
+
+        <!-- Main Content -->
+        <div class="dashboard-content modern-content">
+            <div class="container">
+                <div class="welcome-section fade-in">
+                    <h1 class="gradient-text">Welcome back, <span id="userName">John Doe</span>! 👋</h1>
+                    <p class="subtitle">Ready to exchange some skills today?</p>
+                </div>
+
+                <!-- Location Filter -->
+                <div class="location-filter modern-filter fade-in">
+                    <div class="filter-item glass-effect">
+                        <span class="filter-icon">🏫</span>
+                        <span id="currentUniversity">Stanford University</span>
+                    </div>
+                    <div class="filter-item glass-effect">
+                        <span class="filter-icon">📍</span>
+                        <span id="currentLocation">Main Campus</span>
+                    </div>
+                    <button class="filter-btn glow-effect" onclick="openModal('filterModal')">
+                        <span>Change Filters</span>
+                    </button>
+                </div>
+
+                <div class="action-cards modern-action-cards fade-in">
+                    <div class="action-card glass-card hover-lift" onclick="openModal('raiseTicketModal')">
+                        <div class="action-card-icon gradient-bg">🎟️</div>
+                        <h3>Raise Service Request</h3>
+                        <p>Find a skill provider for your learning needs</p>
+                        <div class="card-glow"></div>
+                    </div>
+                    <div class="action-card glass-card hover-lift" onclick="navigateTo('servicesProvided')">
+                        <div class="action-card-icon gradient-bg">📚</div>
+                        <h3>My Services</h3>
+                        <p>Manage your teaching sessions</p>
+                        <div class="card-glow"></div>
+                    </div>
+                    <div class="action-card glass-card hover-lift" onclick="navigateTo('discussion')">
+                        <div class="action-card-icon gradient-bg">💭</div>
+                        <h3>Join Discussion</h3>
+                        <p>Connect with the community</p>
+                        <div class="card-glow"></div>
+                    </div>
+                </div>
+
+                <h2 class="gradient-text" style="margin-bottom: 25px; font-size: 2rem;">
+                    Nearby Skill Providers
+                    <span class="subtitle" style="font-size: 1rem; font-weight: 400; margin-left: 10px;">
+                        (Sorted by location and rating)
+                    </span>
+                </h2>
+                <div class="users-grid modern-grid" id="usersGrid"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================
+         MATCHES PAGE
+    ============================================ -->
+    <div id="matchesPage" class="hidden">
+        <div class="page-with-header">
+            <div class="dashboard-header modern-header">
+                <div class="container">
+                    <div class="header-content">
+                        <h2 class="gradient-text" style="margin: 0; font-size: 1.5rem;">🎯 Match Requests</h2>
+                        <button class="back-btn modern-back" onclick="navigateTo('dashboard')" style="margin-left: auto;">
+                            <span class="back-arrow">←</span> Back
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container" style="padding-top: 100px;">
+                <div class="matches-container" id="allMatchesList"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================
+         CHATS PAGE
+    ============================================ -->
+    <div id="chatsPage" class="hidden">
+        <div class="page-with-header">
+            <div class="dashboard-header modern-header">
+                <div class="container">
+                    <div class="header-content">
+                        <h2 class="gradient-text" style="margin: 0; font-size: 1.5rem;">💬 Your Chats</h2>
+                        <button class="back-btn modern-back" onclick="navigateTo('dashboard')" style="margin-left: auto;">
+                            <span class="back-arrow">←</span> Back
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container" style="padding-top: 100px;">
+                <div class="chats-container">
+                    <div class="chat-list" id="chatList"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================
+         INDIVIDUAL CHAT PAGE
+    ============================================ -->
+    <div id="chatRoomPage" class="hidden">
+        <div class="page-with-header">
+            <div class="dashboard-header modern-header">
+                <div class="container">
+                    <div class="header-content">
+                        <button class="back-btn modern-back" onclick="navigateTo('chats')" style="margin-right: auto;">
+                            <span class="back-arrow">←</span> Back
+                        </button>
+                        <div class="chat-header-info">
+                            <div class="chat-avatar">👤</div>
+                            <div>
+                                <h3 id="chatPartnerName">Sarah Martinez</h3>
+                                <span class="online-status">● Online</span>
+                            </div>
+                        </div>
+                        <div style="flex: 1;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chat-room-container">
+                <div class="messages-container" id="messagesContainer"></div>
+                <div class="message-input-container">
+                    <div class="container">
+                        <div class="message-input-wrapper">
+                            <input type="text" id="messageInput" class="message-input glass-input" placeholder="Type your message..." onkeypress="handleMessageKeyPress(event)">
+                            <button class="send-btn glow-effect" onclick="sendMessage()">
+                                <span>Send</span>
+                                <span class="btn-arrow">→</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Other pages continue with modernized styling... -->
+    <!-- I'll include the key pages but keep it concise -->
+
+    <!-- NOTIFICATIONS PAGE -->
+    <div id="notificationsPage" class="hidden">
+        <div class="page-with-header">
+            <div class="dashboard-header modern-header">
+                <div class="container">
+                    <div class="header-content">
+                        <h2 class="gradient-text">📬 All Notifications</h2>
+                        <button class="back-btn modern-back" onclick="navigateTo('dashboard')">
+                            <span class="back-arrow">←</span> Back
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="container" style="padding-top: 100px;">
+                <div class="notifications-list" id="allNotificationsList"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- WAITING REQUESTS PAGE -->
+    <div id="waitingRequestsPage" class="hidden">
+        <div class="page-with-header">
+            <div class="dashboard-header modern-header">
+                <div class="container">
+                    <div class="header-content">
+                        <h2 class="gradient-text">⏳ Waiting Requests</h2>
+                        <button class="back-btn modern-back" onclick="navigateTo('dashboard')">
+                            <span class="back-arrow">←</span> Back
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="container" style="padding-top: 100px;">
+                <p class="subtitle" style="margin-bottom: 30px;">
+                    These are your service requests that haven't been matched yet.
+                </p>
+                <div class="waiting-requests-list" id="waitingRequestsList"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PROFILE PAGE -->
+    <div id="profilePage" class="hidden">
+        <button class="back-btn modern-back" onclick="navigateTo('dashboard')">
+            <span class="back-arrow">←</span> Back to Dashboard
+        </button>
+        
+        <div class="container">
+            <div class="profile-container modern-profile-card fade-in">
+                <div class="profile-header">
+                    <div class="profile-avatar gradient-bg">👤</div>
+                    <div class="profile-info">
+                        <h2 class="gradient-text" id="profileName">John Doe</h2>
+                        <p id="profileEmail"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="503a3f383e7e343f35102324313e363f22347e353425">[email&#160;protected]</a></p>
+                    </div>
+                </div>
+
+                <div class="profile-stats modern-stats">
+                    <div class="stat-card glass-card">
+                        <div class="stat-icon gradient-bg">🏫</div>
+                        <div class="stat-details">
+                            <div class="stat-label">University</div>
+                            <div class="stat-value" id="profileUniversity">Stanford</div>
+                        </div>
+                    </div>
+                    <div class="stat-card glass-card">
+                        <div class="stat-icon gradient-bg">📍</div>
+                        <div class="stat-details">
+                            <div class="stat-label">Campus</div>
+                            <div class="stat-value" id="profileCampus">Main</div>
+                        </div>
+                    </div>
+                    <div class="stat-card glass-card">
+                        <div class="stat-icon gradient-bg">🏠</div>
+                        <div class="stat-details">
+                            <div class="stat-label">Region</div>
+                            <div class="stat-value" id="profileRegion">California</div>
+                        </div>
+                    </div>
+                    <div class="stat-card glass-card">
+                        <div class="stat-icon gradient-bg">🏢</div>
+                        <div class="stat-details">
+                            <div class="stat-label">Residence</div>
+                            <div class="stat-value" id="profileResidence">Baker Hall</div>
+                        </div>
+                    </div>
+                    <div class="stat-card glass-card">
+                        <div class="stat-icon gradient-bg">⭐</div>
+                        <div class="stat-details">
+                            <div class="stat-label">Rating</div>
+                            <div class="stat-value" id="profileRating">4.8</div>
+                        </div>
+                    </div>
+                    <div class="stat-card glass-card">
+                        <div class="stat-icon gradient-bg">🪙</div>
+                        <div class="stat-details">
+                            <div class="stat-label">Coins</div>
+                            <div class="stat-value" id="profileCoins">20</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-section">
+                    <div class="section-header">
+                        <h3 class="gradient-text">My Skills</h3>
+                        <button class="btn btn-secondary glass-effect" onclick="openModal('addSkillModal')">
+                            + Add Skill
+                        </button>
+                    </div>
+                    <div class="skills-list" id="profileSkillsList"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Other placeholder pages -->
+    <div id="servicesProvidedPage" class="hidden">
+        <button class="back-btn modern-back" onclick="navigateTo('dashboard')">
+            <span class="back-arrow">←</span> Back
+        </button>
+        <div class="container">
+            <h1 class="gradient-text page-title">Services Provided</h1>
+            <p class="subtitle">Sessions you're teaching</p>
+        </div>
+    </div>
+
+    <div id="servicesTakenPage" class="hidden">
+        <button class="back-btn modern-back" onclick="navigateTo('dashboard')">
+            <span class="back-arrow">←</span> Back
+        </button>
+        <div class="container">
+            <h1 class="gradient-text page-title">Services Taken</h1>
+            <p class="subtitle">Sessions you're learning</p>
+        </div>
+    </div>
+
+    <div id="reviewsPage" class="hidden">
+        <button class="back-btn modern-back" onclick="navigateTo('dashboard')">
+            <span class="back-arrow">←</span> Back
+        </button>
+        <div class="container">
+            <h1 class="gradient-text page-title">Your Reviews</h1>
+            <p class="subtitle">See what others are saying</p>
+        </div>
+    </div>
+
+    <div id="discussionPage" class="hidden">
+        <button class="back-btn modern-back" onclick="navigateTo('dashboard')">
+            <span class="back-arrow">←</span> Back
+        </button>
+        <div class="container">
+            <h1 class="gradient-text page-title">Community Discussion</h1>
+            <div class="discussion-container">
+                <div class="post-form glass-card">
+                    <textarea id="postContent" class="glass-input" placeholder="Share something with the community..."></textarea>
+                    <div class="post-media-preview" id="postMediaPreview" style="display: none;">
+                        <img id="mediaPreviewImage" style="max-width: 100%; border-radius: 12px; margin-top: 10px;" />
+                        <button class="remove-media-btn" onclick="removeMedia()">×</button>
+                    </div>
+                    <input type="file" id="mediaInput" accept="image/*,video/*" style="display: none;" onchange="handleMediaSelect(event)">
+                    <div class="post-actions">
+                        <button class="btn btn-icon glass-effect" onclick="document.getElementById('mediaInput').click()" title="Attach media">
+                            📎 <span>Attach Media</span>
+                        </button>
+                        <button class="btn btn-primary glow-effect" onclick="createPost()">
+                            <span>Post</span>
+                            <span class="btn-arrow">→</span>
+                        </button>
+                    </div>
+                </div>
+                <div id="postsContainer"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="contactPage" class="hidden">
+        <button class="back-btn modern-back" onclick="navigateTo('dashboard')">
+            <span class="back-arrow">←</span> Back
+        </button>
+        <div class="container">
+            <div class="contact-card glass-card">
+                <h1 class="gradient-text">Contact Support</h1>
+                <p class="subtitle">Have questions? We're here for you!</p>
+                <form id="contactForm">
+                    <div class="form-group modern-input">
+                        <label>Subject</label>
+                        <input type="text" class="form-input glass-input" placeholder="What can we help with?">
+                    </div>
+                    <div class="form-group modern-input">
+                        <label>Message</label>
+                        <textarea class="glass-input" placeholder="Describe your issue..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary glow-effect" style="width: 100%;">
+                        <span>Send Message</span>
+                        <span class="btn-arrow">→</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================
+         SETTINGS PAGE
+    ============================================ -->
+    <div id="settingsPage" class="hidden">
+        <button class="back-btn modern-back" onclick="navigateTo('dashboard')">
+            <span class="back-arrow">←</span> Back to Dashboard
+        </button>
+        
+        <div class="container">
+            <h1 class="gradient-text page-title">Settings</h1>
+            <p class="subtitle" style="margin-bottom: 40px;">Manage your account and preferences</p>
+            
+            <div class="settings-container">
+                <!-- Notification Settings -->
+                <div class="settings-card glass-card">
+                    <div class="settings-header">
+                        <h3 class="gradient-text">🔔 Notification Settings</h3>
+                        <p class="subtitle">Choose what you want to be notified about</p>
+                    </div>
+                    
+                    <div class="settings-options">
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <span class="setting-label">Match Requests</span>
+                                <span class="setting-description">Get notified when someone requests a session with you</span>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="notifMatchRequests" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <span class="setting-label">New Messages</span>
+                                <span class="setting-description">Get notified when you receive new chat messages</span>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="notifMessages" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <span class="setting-label">Session Reminders</span>
+                                <span class="setting-description">Get reminded before your scheduled sessions</span>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="notifReminders" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <span class="setting-label">Reviews & Ratings</span>
+                                <span class="setting-description">Get notified when you receive reviews</span>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="notifReviews" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <span class="setting-label">Community Posts</span>
+                                <span class="setting-description">Get notified about new discussion posts</span>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="notifPosts">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Privacy Settings -->
+                <div class="settings-card glass-card">
+                    <div class="settings-header">
+                        <h3 class="gradient-text">🔒 Privacy Settings</h3>
+                        <p class="subtitle">Control who can see your information</p>
+                    </div>
+                    
+                    <div class="settings-options">
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <span class="setting-label">Profile Visibility</span>
+                                <span class="setting-description">Make your profile visible to all users</span>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="privacyProfile" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <span class="setting-label">Show Online Status</span>
+                                <span class="setting-description">Let others see when you're online</span>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="privacyOnline" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <span class="setting-label">Show Location</span>
+                                <span class="setting-description">Display your campus and dorm information</span>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="privacyLocation" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- App Preferences -->
+                <div class="settings-card glass-card">
+                    <div class="settings-header">
+                        <h3 class="gradient-text">⚙️ App Preferences</h3>
+                        <p class="subtitle">Customize your experience</p>
+                    </div>
+                    
+                    <div class="settings-options">
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <span class="setting-label">Theme</span>
+                                <span class="setting-description">Choose your preferred theme</span>
+                            </div>
+                            <select class="glass-input settings-select" id="prefTheme">
+                                <option value="dark" selected>Dark Mode</option>
+                                <option value="light">Light Mode</option>
+                                <option value="auto">Auto (System)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <span class="setting-label">Email Notifications</span>
+                                <span class="setting-description">Receive email summaries</span>
+                            </div>
+                            <select class="glass-input settings-select" id="prefEmailFreq">
+                                <option value="instant">Instantly</option>
+                                <option value="daily" selected>Daily Digest</option>
+                                <option value="weekly">Weekly Summary</option>
+                                <option value="never">Never</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Account Actions -->
+                <div class="settings-card glass-card">
+                    <div class="settings-header">
+                        <h3 class="gradient-text">👤 Account</h3>
+                        <p class="subtitle">Manage your account</p>
+                    </div>
+                    
+                    <div class="settings-actions">
+                        <button class="btn btn-secondary glass-effect" onclick="changePassword()" style="width: 100%; margin-bottom: 15px;">
+                            <span>🔑 Change Password</span>
+                        </button>
+                        <button class="btn btn-secondary glass-effect" onclick="exportData()" style="width: 100%; margin-bottom: 15px;">
+                            <span>📥 Export My Data</span>
+                        </button>
+                        <button class="btn btn-decline" onclick="deleteAccount()" style="width: 100%;">
+                            <span>🗑️ Delete Account</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Save Button -->
+                <div class="settings-save">
+                    <button class="btn btn-primary glow-effect" onclick="saveSettings()" style="width: 100%; max-width: 400px; margin: 30px auto; display: block;">
+                        <span>Save Changes</span>
+                        <span class="btn-arrow">→</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================
+         MODALS
+    ============================================ -->
+    
+    <!-- Welcome Coins Modal -->
+    <div id="welcomeCoinsModal" class="modal-overlay modern-modal hidden">
+        <div class="modal glass-card">
+            <div class="modal-header">
+                <h2 class="gradient-text">Welcome to SkillChain! 🎉</h2>
+            </div>
+            <div class="coins-animation pulse">🪙</div>
+            <div class="coin-count gradient-text" id="coinCountAnimation">20</div>
+            <p class="subtitle" style="text-align: center; margin-top: 20px;">
+                You received 20 Free Coins to start your journey!
+            </p>
+            <button class="btn btn-primary glow-effect" onclick="closeWelcomeModal()" style="width: 100%; margin-top: 30px;">
+                <span>Let's Go!</span>
+                <span class="btn-arrow">→</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Negotiate Modal -->
+    <div id="negotiateModal" class="modal-overlay modern-modal hidden">
+        <div class="modal glass-card">
+            <button class="close-btn modern-close" onclick="closeModal('negotiateModal')">×</button>
+            <div class="modal-header">
+                <h2 class="gradient-text">Negotiate Offer</h2>
+                <p class="subtitle">Propose a counter-offer</p>
+            </div>
+
+            <div class="negotiate-info">
+                <p><strong>Original Offer:</strong> <span id="negotiateOriginalOffer">10</span> coins</p>
+                <p><strong>From:</strong> <span id="negotiateRequester">User</span></p>
+            </div>
+
+            <div class="form-group modern-input">
+                <label for="counterOffer">Your Counter-Offer (coins)</label>
+                <input type="number" id="counterOffer" class="form-input glass-input" placeholder="Enter your counter-offer" min="1">
+            </div>
+
+            <div class="form-group modern-input">
+                <label for="negotiateMessage">Message (Optional)</label>
+                <textarea id="negotiateMessage" class="glass-input" placeholder="Explain your counter-offer..."></textarea>
+            </div>
+
+            <button class="btn btn-primary glow-effect" onclick="submitNegotiation()" style="width: 100%; margin-top: 20px;">
+                <span>Send Counter-Offer</span>
+                <span class="btn-arrow">→</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Filter Modal -->
+    <div id="filterModal" class="modal-overlay modern-modal hidden">
+        <div class="modal glass-card">
+            <button class="close-btn modern-close" onclick="closeModal('filterModal')">×</button>
+            <div class="modal-header">
+                <h2 class="gradient-text">Filter by Location & Skills</h2>
+                <p class="subtitle">Find skills providers near you</p>
+            </div>
+
+            <div class="form-group modern-input">
+                <label for="filterCity">City</label>
+                <select id="filterCity" class="glass-input">
+                    <option value="all">All Cities</option>
+                    <option value="chennai">Chennai</option>
+                    <option value="bangalore">Bangalore</option>
+                    <option value="mumbai">Mumbai</option>
+                    <option value="delhi">Delhi</option>
+                    <option value="hyderabad">Hyderabad</option>
+                    <option value="pune">Pune</option>
+                    <option value="kolkata">Kolkata</option>
+                </select>
+            </div>
+
+            <div class="form-group modern-input">
+                <label for="filterRegion">Region/State</label>
+                <select id="filterRegion" class="glass-input">
+                    <option value="all">All Regions</option>
+                    <option value="tamil-nadu">Tamil Nadu</option>
+                    <option value="karnataka">Karnataka</option>
+                    <option value="maharashtra">Maharashtra</option>
+                    <option value="delhi-ncr">Delhi NCR</option>
+                    <option value="telangana">Telangana</option>
+                    <option value="west-bengal">West Bengal</option>
+                </select>
+            </div>
+
+            <div class="form-group modern-input">
+                <label for="filterUniversity">University</label>
+                <select id="filterUniversity" class="glass-input">
+                    <option value="all">All Universities</option>
+                    <option value="stanford">Stanford University</option>
+                    <option value="mit">MIT</option>
+                    <option value="harvard">Harvard University</option>
+                </select>
+            </div>
+
+            <div class="form-group modern-input">
+                <label for="filterCampus">Campus Location</label>
+                <select id="filterCampus" class="glass-input">
+                    <option value="all">All Campus Locations</option>
+                    <option value="main">Main Campus</option>
+                    <option value="north">North Campus</option>
+                    <option value="south">South Campus</option>
+                    <option value="east">East Campus</option>
+                    <option value="west">West Campus</option>
+                </select>
+            </div>
+
+            <div class="form-group modern-input">
+                <label for="filterSkillCategory">Skill Category</label>
+                <select id="filterSkillCategory" class="glass-input">
+                    <option value="all">All Skills</option>
+                    <option value="music">🎵 Music</option>
+                    <option value="coding">💻 Coding</option>
+                    <option value="languages">🗣️ Languages</option>
+                    <option value="fitness">💪 Fitness</option>
+                    <option value="art">🎨 Art</option>
+                    <option value="other">✨ Other</option>
+                </select>
+            </div>
+
+            <div class="form-group modern-input">
+                <label for="filterHostel">Hostel/Dorm (Optional)</label>
+                <input type="text" id="filterHostel" class="form-input glass-input" placeholder="Enter hostel name">
+            </div>
+
+            <div class="filter-options">
+                <label class="checkbox-label glass-effect">
+                    <input type="checkbox" id="filterNearMe">
+                    <span>📍 Show Near Me First</span>
+                </label>
+            </div>
+
+            <button class="btn btn-primary glow-effect" onclick="applyFilters()" style="width: 100%; margin-top: 20px;">
+                <span>Apply Filters</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Raise Ticket Modal -->
+    <div id="raiseTicketModal" class="modal-overlay modern-modal hidden">
+        <div class="modal glass-card">
+            <button class="close-btn modern-close" onclick="closeModal('raiseTicketModal')">×</button>
+            <div class="modal-header">
+                <h2 class="gradient-text">Raise Service Request</h2>
+                <p class="subtitle">Tell us what you want to learn</p>
+            </div>
+
+            <form id="ticketForm">
+                <div class="form-group modern-input">
+                    <label for="ticketSkill">Skill Category</label>
+                    <select id="ticketSkill" class="glass-input">
+                        <option value="">Select a skill</option>
+                        <option value="music">🎵 Music</option>
+                        <option value="coding">💻 Coding</option>
+                        <option value="languages">🗣️ Languages</option>
+                        <option value="other">✨ Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group modern-input">
+                    <label for="ticketDescription">Description</label>
+                    <textarea id="ticketDescription" class="glass-input" placeholder="Describe what you want to learn..."></textarea>
+                </div>
+
+                <div class="form-group modern-input">
+                    <label for="ticketCoins">Coins Offered</label>
+                    <input type="number" id="ticketCoins" class="form-input glass-input" placeholder="How many coins?" min="1">
+                    <small class="subtitle">Balance: <span id="currentBalanceDisplay">20</span> coins</small>
+                </div>
+
+                <button type="button" class="btn btn-primary glow-effect" onclick="submitTicket()" style="width: 100%; margin-top: 20px;">
+                    <span>Submit Request</span>
+                    <span class="btn-arrow">→</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Skill Modal -->
+    <div id="addSkillModal" class="modal-overlay modern-modal hidden">
+        <div class="modal glass-card">
+            <button class="close-btn modern-close" onclick="closeModal('addSkillModal')">×</button>
+            <div class="modal-header">
+                <h2 class="gradient-text">Add New Skill</h2>
+            </div>
+
+            <div class="form-group modern-input">
+                <label for="newSkillCategory">Category</label>
+                <select id="newSkillCategory" class="glass-input">
+                    <option value="music">🎵 Music</option>
+                    <option value="coding">💻 Coding</option>
+                    <option value="other">✨ Other</option>
+                </select>
+            </div>
+
+            <div class="form-group modern-input">
+                <label for="newSkillName">Skill Name</label>
+                <input type="text" id="newSkillName" class="form-input glass-input" placeholder="e.g., Guitar">
+            </div>
+
+            <div class="form-group modern-input">
+                <label for="newSkillProficiency">Proficiency</label>
+                <select id="newSkillProficiency" class="glass-input">
+                    <option value="beginner">Beginner</option>
+                    <option value="intermediate">Intermediate</option>
+                    <option value="advanced">Advanced</option>
+                    <option value="expert">Expert</option>
+                </select>
+            </div>
+
+            <button class="btn btn-primary glow-effect" onclick="saveNewSkill()" style="width: 100%; margin-top: 20px;">
+                               <span>Add Skill</span>
+                <span class="btn-arrow">→</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- ============================================
+         CALENDAR PAGE
+    ============================================ -->
+    <div id="calendarPage" class="hidden">
+        <div class="page-with-header">
+            <div class="dashboard-header modern-header">
+                <div class="container">
+                    <div class="header-content">
+                        <h2 class="gradient-text" style="margin: 0; font-size: 1.5rem;">📅 My Calendar</h2>
+                        <button class="back-btn modern-back" onclick="navigateTo('dashboard')" style="margin-left: auto;">
+                            <span class="back-arrow">←</span> Back
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container" style="padding-top: 100px;">
+                <div class="calendar-filters modern-filter" style="margin-bottom: 30px;">
+                    <button class="filter-btn glass-effect" onclick="filterCalendar('all')" id="calFilter-all">
+                        All Sessions
+                    </button>
+                    <button class="filter-btn glass-effect" onclick="filterCalendar('scheduled')" id="calFilter-scheduled">
+                        Scheduled
+                    </button>
+                    <button class="filter-btn glass-effect" onclick="filterCalendar('completed')" id="calFilter-completed">
+                        Completed
+                    </button>
+                </div>
+
+                <div id="calendarSessions" class="calendar-sessions"></div>
+                
+                <div id="emptyCalendar" class="empty-state" style="display: none;">
+                    <div class="empty-icon">📅</div>
+                    <h3>No Sessions Yet</h3>
+                    <p>Your scheduled sessions will appear here</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

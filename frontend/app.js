@@ -2,7 +2,7 @@ console.log('SkillChain app.js loaded successfully!');
 const token = localStorage.getItem('token');
 
 if (token) {
-    fetch('http://localhost:5000/api/auth/me', {
+    fetch('https://skillchain-platform.onrender.com/api/auth/me', {
         headers: {
             'Authorization': `Bearer ${token}`
         }
@@ -66,7 +66,7 @@ async function loadInitialData() {
 
     // Load notifications
     try {
-        const res = await fetch('http://localhost:5000/api/notifications', { headers });
+        const res = await fetch('https://skillchain-platform.onrender.com/api/notifications', { headers });
         if (res.ok) notifications = await res.json();
     } catch (e) {
         console.warn('Failed to load notifications', e);
@@ -74,7 +74,7 @@ async function loadInitialData() {
 
     // Load posts for discussion
     try {
-        const res = await fetch('http://localhost:5000/api/posts');
+        const res = await fetch('https://skillchain-platform.onrender.com/api/posts');
         if (res.ok) {
             const posts = await res.json();
             // normalize posts to frontend shape and mark liked if current user liked them
@@ -305,7 +305,7 @@ async function handleSignupSubmit(event) {
             payload.deviceLng = window.__deviceLocation.lng;
         }
 
-        const response = await fetch('http://localhost:5000/api/auth/register', {
+        const response = await fetch('https://skillchain-platform.onrender.com/api/auth/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -470,7 +470,7 @@ async function patchProfileLocation(body) {
     }
 
     try {
-        const res = await fetch('http://localhost:5000/api/users/profile', {
+        const res = await fetch('https://skillchain-platform.onrender.com/api/users/profile', {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
@@ -1108,7 +1108,7 @@ async function submitProfileLocationUpdate() {
 
     try {
         const token = localStorage.getItem('token');
-        const res = await fetch('http://localhost:5000/api/users/profile', {
+        const res = await fetch('https://skillchain-platform.onrender.com/api/users/profile', {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
             body: JSON.stringify(payload)
@@ -1259,7 +1259,7 @@ async function toggleLike(postId) {
     populateDiscussionFeed();
 
     try {
-        const res = await fetch(`http://localhost:5000/api/posts/${postId}/like`, {
+        const res = await fetch(`https://skillchain-platform.onrender.com/api/posts/${postId}/like`, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`
@@ -1329,7 +1329,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function initSocket() {
         try {
             if (typeof io !== 'undefined') {
-                socket = io('http://localhost:5000');
+                socket = io('https://skillchain-platform.onrender.com');
 
                 socket.on('connect', () => {
                     console.log('Connected to socket.io server');
@@ -1404,7 +1404,7 @@ async function handleSignInSubmit(event) {
     const password = document.getElementById('signinPassword').value;
 
     try {
-        const response = await fetch('http://localhost:5000/api/auth/login', {
+        const response = await fetch('https://skillchain-platform.onrender.com/api/auth/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -1594,7 +1594,7 @@ async function createPost() {
         form.append('content', content);
         if (selectedMediaFile) form.append('media', selectedMediaFile);
 
-        const res = await fetch('http://localhost:5000/api/posts', {
+        const res = await fetch('https://skillchain-platform.onrender.com/api/posts', {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`
